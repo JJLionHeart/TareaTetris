@@ -1,4 +1,3 @@
-package org.psnbtech;
 
 /**
  * The {@code Clock} class is responsible for tracking the number of cycles
