@@ -193,71 +193,71 @@ public enum TileType {
 	/**
 	 * The base color of tiles of this type.
 	 */
-	private Color baseColor;
+	private Color colBaseColor;
 	
 	/**
 	 * The light shading color of tiles of this type.
 	 */
-	private Color lightColor;
+	private Color colLightColor;
 	
 	/**
 	 * The dark shading color of tiles of this type.
 	 */
-	private Color darkColor;
+	private Color colDarkColor;
 	
 	/**
 	 * The column that this type spawns in.
 	 */
-	private int spawnCol;
+	private int iSpawnCol;
 	
 	/**
 	 * The row that this type spawns in.
 	 */
-	private int spawnRow;
+	private int iSpawnRow;
 	
 	/**
 	 * The dimensions of the array for this piece.
 	 */
-	private int dimension;
+	private int iDimension;
 	
 	/**
 	 * The number of rows in this piece. (Only valid when rotation is 0 or 2,
 	 * but it's fine since we're only using it for displaying the next piece
 	 * preview, which uses rotation 0).
 	 */
-	private int rows;
+	private int iRows;
 	
 	/**
 	 * The number of columns in this piece. (Only valid when rotation is 0 or 2,
 	 * but it's fine since we're only using it for displaying the next piece
 	 * preview, which uses rotation 0).
 	 */
-	private int cols;
+	private int iCols;
 	
 	/**
 	 * The tiles for this piece. Each piece has an array of tiles for each rotation.
 	 */
-	private boolean[][] tiles;
+	private boolean[][] boolmatTiles;
 	
 	/**
 	 * Creates a new TileType.
 	 * @param color The base color of the tile.
 	 * @param dimension The dimensions of the tiles array.
-	 * @param cols The number of columns.
+	 * @param iCols The number of columns.
 	 * @param rows The number of rows.
 	 * @param tiles The tiles.
 	 */
-	private TileType(Color color, int dimension, int cols, int rows, boolean[][] tiles) {
-		this.baseColor = color;
-		this.lightColor = color.brighter();
-		this.darkColor = color.darker();
-		this.dimension = dimension;
-		this.tiles = tiles;
-		this.cols = cols;
-		this.rows = rows;
+	private TileType(Color color, int iDimension, int iCols, int iRows, boolean[][] boolmatTiles) {
+		this.colBaseColor = color;
+		this.colLightColor = color.brighter();
+		this.colDarkColor = color.darker();
+		this.iDimension = iDimension;
+		this.boolmatTiles = boolmatTiles;
+		this.iCols = iCols;
+		this.iRows = iRows;
 		
-		this.spawnCol = 5 - (dimension >> 1);
-		this.spawnRow = getTopInset(0);
+		this.iSpawnCol = 5 - (iDimension >> 1);
+		this.iSpawnRow = getTopInset(0);
 	}
 	
 	/**
@@ -265,7 +265,7 @@ public enum TileType {
 	 * @return The base color.
 	 */
 	public Color getBaseColor() {
-		return baseColor;
+		return colBaseColor;
 	}
 	
 	/**
@@ -273,7 +273,7 @@ public enum TileType {
 	 * @return The light color.
 	 */
 	public Color getLightColor() {
-		return lightColor;
+		return colLightColor;
 	}
 	
 	/**
@@ -281,7 +281,7 @@ public enum TileType {
 	 * @return The dark color.
 	 */
 	public Color getDarkColor() {
-		return darkColor;
+		return colDarkColor;
 	}
 	
 	/**
@@ -289,7 +289,7 @@ public enum TileType {
 	 * @return The dimension.
 	 */
 	public int getDimension() {
-		return dimension;
+		return iDimension;
 	}
 	
 	/**
@@ -297,7 +297,7 @@ public enum TileType {
 	 * @return The spawn column.
 	 */
 	public int getSpawnColumn() {
-		return spawnCol;
+		return iSpawnCol;
 	}
 	
 	/**
@@ -305,7 +305,7 @@ public enum TileType {
 	 * @return The spawn row.
 	 */
 	public int getSpawnRow() {
-		return spawnRow;
+		return iSpawnRow;
 	}
 	
 	/**
@@ -314,7 +314,7 @@ public enum TileType {
 	 * @return The number of rows.
 	 */
 	public int getRows() {
-		return rows;
+		return iRows;
 	}
 	
 	/**
@@ -323,7 +323,7 @@ public enum TileType {
 	 * @return The number of columns.
 	 */
 	public int getCols() {
-		return cols;
+		return iCols;
 	}
 	
 	/**
@@ -333,8 +333,8 @@ public enum TileType {
 	 * @param rotation The rotation to check in.
 	 * @return Whether or not a tile resides there.
 	 */
-	public boolean isTile(int x, int y, int rotation) {
-		return tiles[rotation][y * dimension + x];
+	public boolean isTile(int iX, int iY, int iRotation) {
+		return boolmatTiles[iRotation][iY * iDimension + iX];
 	}
 	
 	/**
@@ -343,15 +343,15 @@ public enum TileType {
 	 * @param rotation The rotation.
 	 * @return The left inset.
 	 */
-	public int getLeftInset(int rotation) {
+	public int getLeftInset(int iRotation) {
 		/*
 		 * Loop through from left to right until we find a tile then return
 		 * the column.
 		 */
-		for(int x = 0; x < dimension; x++) {
-			for(int y = 0; y < dimension; y++) {
-				if(isTile(x, y, rotation)) {
-					return x;
+		for(int iX = 0; iX < iDimension; iX++) {
+			for(int iY = 0; iY < iDimension; iY++) {
+				if(isTile(iX, iY, iRotation)) {
+					return iX;
 				}
 			}
 		}
@@ -364,15 +364,15 @@ public enum TileType {
 	 * @param rotation The rotation.
 	 * @return The right inset.
 	 */
-	public int getRightInset(int rotation) {
+	public int getRightInset(int iRotation) {
 		/*
 		 * Loop through from right to left until we find a tile then return
 		 * the column.
 		 */
-		for(int x = dimension - 1; x >= 0; x--) {
-			for(int y = 0; y < dimension; y++) {
-				if(isTile(x, y, rotation)) {
-					return dimension - x;
+		for(int iX = iDimension - 1; iX >= 0; iX--) {
+			for(int iY = 0; iY < iDimension; iY++) {
+				if(isTile(iX, iY, iRotation)) {
+					return iDimension - iX;
 				}
 			}
 		}
@@ -385,15 +385,15 @@ public enum TileType {
 	 * @param rotation The rotation.
 	 * @return The top inset.
 	 */
-	public int getTopInset(int rotation) {
+	public int getTopInset(int iRotation) {
 		/*
 		 * Loop through from top to bottom until we find a tile then return
 		 * the row.
 		 */
-		for(int y = 0; y < dimension; y++) {
-			for(int x = 0; x < dimension; x++) {
-				if(isTile(x, y, rotation)) {
-					return y;
+		for(int iY = 0; iY < iDimension; iY++) {
+			for(int iX = 0; iX < iDimension; iX++) {
+				if(isTile(iX, iY, iRotation)) {
+					return iY;
 				}
 			}
 		}
@@ -406,15 +406,15 @@ public enum TileType {
 	 * @param rotation The rotation.
 	 * @return The bottom inset.
 	 */
-	public int getBottomInset(int rotation) {
+	public int getBottomInset(int iRotation) {
 		/*
 		 * Loop through from bottom to top until we find a tile then return
 		 * the row.
 		 */
-		for(int y = dimension - 1; y >= 0; y--) {
-			for(int x = 0; x < dimension; x++) {
-				if(isTile(x, y, rotation)) {
-					return dimension - y;
+		for(int iY = iDimension - 1; iY >= 0; iY--) {
+			for(int iX = 0; iX < iDimension; iX++) {
+				if(isTile(iX, iY, iRotation)) {
+					return iDimension - iY;
 				}
 			}
 		}

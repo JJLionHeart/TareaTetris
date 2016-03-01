@@ -243,9 +243,9 @@ public class Tetris extends JFrame {
 			}
 			
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyReleased(KeyEvent keyE) {
 				
-				switch(e.getKeyCode()) {
+				switch(keyE.getKeyCode()) {
 				
 				/*
 				 * Drop - When released, we set the speed of the logic timer
@@ -291,7 +291,7 @@ public class Tetris extends JFrame {
 		
 		while(true) {
 			//Get the time that the frame started.
-			long start = System.nanoTime();
+			long lnStart = System.nanoTime();
 			
 			//Update the logic timer.
 			clkLogicTimer.update();
@@ -315,10 +315,10 @@ public class Tetris extends JFrame {
 			/*
 			 * Sleep to cap the framerate.
 			 */
-			long delta = (System.nanoTime() - start) / 1000000L;
-			if(delta < iFRAME_TIME) {
+			long lnDelta = (System.nanoTime() - lnStart) / 1000000L;
+			if(lnDelta < iFRAME_TIME) {
 				try {
-					Thread.sleep(iFRAME_TIME - delta);
+					Thread.sleep(iFRAME_TIME - lnDelta);
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -348,9 +348,9 @@ public class Tetris extends JFrame {
 			 * increase the player's score. (Up to 4 lines can be cleared in a single go;
 			 * [1 = 100pts, 2 = 200pts, 3 = 400pts, 4 = 800pts]).
 			 */
-			int cleared = bpnBoard.checkLines();
-			if(cleared > 0) {
-				iScore += 50 << cleared;
+			int iCleared = bpnBoard.checkLines();
+			if(iCleared > 0) {
+				iScore += 50 << iCleared;
 			}
 			
 			/*
@@ -435,52 +435,52 @@ public class Tetris extends JFrame {
 	 * Attempts to set the rotation of the current piece to newRotation.
 	 * @param newRotation The rotation of the new peice.
 	 */
-	private void rotatePiece(int newRotation) {
+	private void rotatePiece(int iNewRotation) {
 		/*
 		 * Sometimes pieces will need to be moved when rotated to avoid clipping
 		 * out of the board (the I piece is a good example of this). Here we store
 		 * a temporary row and column in case we need to move the tile as well.
 		 */
-		int newColumn = iCurrentCol;
-		int newRow = iCurrentRow;
+		int iNewColumn = iCurrentCol;
+		int iNewRow = iCurrentRow;
 		
 		/*
 		 * Get the insets for each of the sides. These are used to determine how
 		 * many empty rows or columns there are on a given side.
 		 */
-		int left = tltCurrentType.getLeftInset(newRotation);
-		int right = tltCurrentType.getRightInset(newRotation);
-		int top = tltCurrentType.getTopInset(newRotation);
-		int bottom = tltCurrentType.getBottomInset(newRotation);
+		int iLeft = tltCurrentType.getLeftInset(iNewRotation);
+		int iRight = tltCurrentType.getRightInset(iNewRotation);
+		int iTop = tltCurrentType.getTopInset(iNewRotation);
+		int iBottom = tltCurrentType.getBottomInset(iNewRotation);
 		
 		/*
 		 * If the current piece is too far to the left or right, move the piece away from the edges
 		 * so that the piece doesn't clip out of the map and automatically become invalid.
 		 */
-		if(iCurrentCol < -left) {
-			newColumn -= iCurrentCol - left;
-		} else if(iCurrentCol + tltCurrentType.getDimension() - right >= BoardPanel.COL_COUNT) {
-			newColumn -= (iCurrentCol + tltCurrentType.getDimension() - right) - BoardPanel.COL_COUNT + 1;
+		if(iCurrentCol < -iLeft) {
+			iNewColumn -= iCurrentCol - iLeft;
+		} else if(iCurrentCol + tltCurrentType.getDimension() - iRight >= BoardPanel.COL_COUNT) {
+			iNewColumn -= (iCurrentCol + tltCurrentType.getDimension() - iRight) - BoardPanel.COL_COUNT + 1;
 		}
 		
 		/*
 		 * If the current piece is too far to the top or bottom, move the piece away from the edges
 		 * so that the piece doesn't clip out of the map and automatically become invalid.
 		 */
-		if(iCurrentRow < -top) {
-			newRow -= iCurrentRow - top;
-		} else if(iCurrentRow + tltCurrentType.getDimension() - bottom >= BoardPanel.ROW_COUNT) {
-			newRow -= (iCurrentRow + tltCurrentType.getDimension() - bottom) - BoardPanel.ROW_COUNT + 1;
+		if(iCurrentRow < -iTop) {
+			iNewRow -= iCurrentRow - iTop;
+		} else if(iCurrentRow + tltCurrentType.getDimension() - iBottom >= BoardPanel.ROW_COUNT) {
+			iNewRow -= (iCurrentRow + tltCurrentType.getDimension() - iBottom) - BoardPanel.ROW_COUNT + 1;
 		}
 		
 		/*
 		 * Check to see if the new position is acceptable. If it is, update the rotation and
 		 * position of the piece.
 		 */
-		if(bpnBoard.isValidAndEmpty(tltCurrentType, newColumn, newRow, newRotation)) {
-			iCurrentRotation = newRotation;
-			iCurrentRow = newRow;
-			iCurrentCol = newColumn;
+		if(bpnBoard.isValidAndEmpty(tltCurrentType, iNewColumn, iNewRow, iNewRotation)) {
+			iCurrentRotation = iNewRotation;
+			iCurrentRow = iNewRow;
+			iCurrentCol = iNewColumn;
 		}
 	}
 	
@@ -570,8 +570,8 @@ public class Tetris extends JFrame {
 	 * @param args Unused.
 	 */
 	public static void main(String[] args) {
-		Tetris tetris = new Tetris();
-		tetris.startGame();
+		Tetris tetTetris = new Tetris();
+		tetTetris.startGame();
 	}
 
 }
