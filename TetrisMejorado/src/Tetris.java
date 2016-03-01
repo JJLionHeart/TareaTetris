@@ -18,7 +18,7 @@ public class Tetris extends JFrame {
 	/**
 	 * The Serial Version UID.
 	 */
-	private static final long iserialVersionUID = -4722429764792514382L;
+	private static final long iSerialVersionUID = -4722429764792514382L;
 
 	/**
 	 * The number of milliseconds per frame.
