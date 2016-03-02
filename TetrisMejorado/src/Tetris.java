@@ -113,6 +113,9 @@ public class Tetris extends JFrame {
 	 * The speed of the game.
 	 */
 	private float fGameSpeed;
+        
+        private SoundClip SClipFondo;  // Objeto SoundClip de fondo
+        private SoundClip SClipPieza;  // Objeto SoundClip de las piezas
 		
 	/**
 	 * Creates a new Tetris instance. Sets up the window's properties,
@@ -138,7 +141,19 @@ public class Tetris extends JFrame {
 		 */
 		add(bpnBoard, BorderLayout.CENTER);
 		add(spnSide, BorderLayout.EAST);
+                
+                /*
+		 * Add the background sound. 
+		 */
+                SClipFondo = new SoundClip("Developers.wav");
+                SClipFondo.setLooping(true);
+                SClipFondo.play();
 		
+                /*
+		 * Add the sound for the pieces. 
+		 */
+                SClipPieza = new SoundClip("Pieza.wav");
+                
 		/*
 		 * Adds a custom anonymous KeyListener to the frame.
 		 */
@@ -394,6 +409,11 @@ public class Tetris extends JFrame {
 			 * Spawn a new piece to control.
 			 */
 			spawnPiece();
+                        
+			/*
+			 * Plays the sound when it hits anothe piece or the bottom.
+			 */
+                        SClipPieza.play();
 		}		
 	}
 	
@@ -479,10 +499,10 @@ public class Tetris extends JFrame {
 		if(iCurrentCol < -iLeft) {
 			iNewColumn -= iCurrentCol - iLeft;
 		} else if(iCurrentCol + tltCurrentType.getDimension() 
-                        - iRight >= BoardPanel.COL_COUNT) {
+                        - iRight >= BoardPanel.iCOL_COUNT) {
 			iNewColumn -= (iCurrentCol + 
                                 tltCurrentType.getDimension() - iRight) 
-                                - BoardPanel.COL_COUNT + 1;
+                                - BoardPanel.iCOL_COUNT + 1;
 		}
 		
 		/*
@@ -491,8 +511,8 @@ public class Tetris extends JFrame {
 		 */
 		if(iCurrentRow < -iTop) {
 			iNewRow -= iCurrentRow - iTop;
-		} else if(iCurrentRow + tltCurrentType.getDimension() - iBottom >= BoardPanel.ROW_COUNT) {
-			iNewRow -= (iCurrentRow + tltCurrentType.getDimension() - iBottom) - BoardPanel.ROW_COUNT + 1;
+		} else if(iCurrentRow + tltCurrentType.getDimension() - iBottom >= BoardPanel.iROW_COUNT) {
+			iNewRow -= (iCurrentRow + tltCurrentType.getDimension() - iBottom) - BoardPanel.iROW_COUNT + 1;
 		}
 		
 		/*
