@@ -107,6 +107,12 @@ public class BoardPanel extends JPanel {
 	 * The tiles that make up the board.
 	 */
 	private TileType[][] tltTiles;
+        
+        /**
+         * Variable para la Iluminacion.
+        */
+        private boolean bIluminar;
+        private int iContador;
 		
 	/**
 	 * Crates a new GameBoard instance.
@@ -115,7 +121,8 @@ public class BoardPanel extends JPanel {
 	public BoardPanel(Tetris tetris) {
 		this.tetTetris = tetris;
 		this.tltTiles = new TileType[iROW_COUNT][iCOL_COUNT];
-		
+		iContador = 50;
+                bIluminar = false;
 		setPreferredSize(new Dimension(iPANEL_WIDTH, iPANEL_HEIGHT));
 		setBackground(Color.BLACK);
 	}
@@ -289,6 +296,8 @@ public class BoardPanel extends JPanel {
 		//This helps simplify the positioning of things.
 		g.translate(iBORDER_WIDTH, iBORDER_WIDTH);
 		
+                //Inicializo la variable para cambiar el brillo.
+                
 		/*
 		 * Draw the board differently depending on the current game state.
 		 */
@@ -349,14 +358,28 @@ public class BoardPanel extends JPanel {
 			for(int iCol = 0; iCol < tltType.getDimension(); iCol++) {
 				for(int iRow = 0; iRow < tltType.getDimension(); iRow++) {
 					if(iPieceRow + iRow >= 2 && tltType.isTile(iCol, iRow, iRotation)) {
-						drawTile(tltType, (iPieceCol + iCol) *
-                                                        iTILE_SIZE, 
+						if(bIluminar)
+                                                {
+                                                drawTile(tltType, (iPieceCol + iCol) *                                                        iTILE_SIZE, 
                                                         (iPieceRow + iRow - iHIDDEN_ROW_COUNT)
                                                                 * iTILE_SIZE, g);
+                                                }
+                                                else
+                                                {
+                                                 drawTile2(tltType, (iPieceCol + iCol) *                                                        iTILE_SIZE, 
+                                                        (iPieceRow + iRow - iHIDDEN_ROW_COUNT)
+                                                                * iTILE_SIZE, g);  
+                                                }
 					}
 				}
 			}
 			
+                        //Vario la variable para el brillo
+                       if(iContador == 0){
+                           iContador = 50;
+                           bIluminar = !bIluminar;
+                       }
+                       iContador--;
 			/*
 			 * Draw the ghost (semi-transparent piece that shows where the current piece will land). I couldn't think of
 			 * a better way to implement this so it'll have to do for now. We simply take the current position and move
@@ -415,6 +438,17 @@ public class BoardPanel extends JPanel {
 	 */
 	private void drawTile(TileType type, int iX, int iY, Graphics g) {
 		drawTile(type.getBaseColor(), type.getLightColor(), type.getDarkColor(), iX, iY, g);
+	}
+        
+        /**
+	 * Draws a tile onto the board.
+	 * @param type The type of tile to draw.
+	 * @param iX The column.
+	 * @param iY The row.
+	 * @param g The graphics object.
+	 */
+	private void drawTile2(TileType type, int iX, int iY, Graphics g) {
+		drawTile(type.getBaseColor().brighter(), type.getLightColor().brighter() , type.getDarkColor().brighter(), iX, iY, g);
 	}
 	
 	/**

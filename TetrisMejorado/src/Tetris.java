@@ -150,7 +150,7 @@ public class Tetris extends JFrame {
                 /*
 		 * Add the background sound. 
 		 */
-                SClipFondo = new SoundClip("Developers.wav");
+                SClipFondo = new SoundClip("Fondo.wav");
                 SClipFondo.setLooping(true);
                 SClipFondo.play();
 		
@@ -376,7 +376,7 @@ public class Tetris extends JFrame {
 		if(bpnBoard.isValidAndEmpty(tltCurrentType, iCurrentCol, iCurrentRow + 1, iCurrentRotation)) {
 			//Increment the current row if it's safe to do so.
 			iCurrentRow++;
-                        
+                        /*
                         //decido si se debe iluminar.
                         if(bIluminar)
                         {
@@ -388,6 +388,7 @@ public class Tetris extends JFrame {
                             tltCurrentType.setColor(colColorReal);
                             bIluminar = true;
                         }
+                        */
 		} else {
 			/*
 			 * We've either reached the bottom of the board, or landed on another piece, so
@@ -405,11 +406,6 @@ public class Tetris extends JFrame {
 				iScore += 50 << iCleared;
 			}
                         
-                        /*
-                         * Pongo el Color de la pieza en su color original
-                        */
-                        tltCurrentType.setColor(colColorReal);
-			
 			/*
 			 * Increase the speed slightly for the next piece and update the game's timer
 			 * to reflect the increase.

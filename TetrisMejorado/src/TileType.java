@@ -249,6 +249,10 @@ public enum TileType {
 	private boolean[][] boolmatTiles;
         //tipo de tyle
 	private int iType;
+        
+        //variable para revisar si cambiar el color
+        private boolean bVivo;
+        
 	/**
 	 * Creates a new TileType.
 	 * @param color The base color of the tile.
@@ -269,6 +273,7 @@ public enum TileType {
 		this.iType = iT;
 		this.iSpawnCol = 5 - (iDimension >> 1);
 		this.iSpawnRow = getTopInset(0);
+                this.bVivo = true;
 	}
 	
 	/**
@@ -435,13 +440,13 @@ public enum TileType {
         public int getType(){
             return iType;
         }
-	
+	/*
         //cambia el brillo de la pieza
         public void Iluminar(Color color)
         {
                 colBaseColor = color.brighter();
-		colLightColor = color.brighter().brighter();
-		colDarkColor = color.darker().brighter();
+		colLightColor = color.brighter().brighter().brighter();
+		colDarkColor = color.darker().brighter().brighter();
         }
         
         //regreso al color original.
@@ -451,4 +456,6 @@ public enum TileType {
 		colLightColor = color.brighter();
 		colDarkColor = color.darker();
         }
+        */
+
 }
