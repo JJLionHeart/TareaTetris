@@ -114,7 +114,8 @@ public class Tetris extends JFrame {
 	 */
 	private float fGameSpeed;
         
-        //private SoundClip SClipFondo;  // Objeto SoundClip de fondo
+        private SoundClip SClipFondo;  // Objeto SoundClip de fondo
+        private SoundClip SClipPieza;  // Objeto SoundClip de las piezas
 		
 	/**
 	 * Creates a new Tetris instance. Sets up the window's properties,
@@ -144,9 +145,15 @@ public class Tetris extends JFrame {
                 /*
 		 * Add the background sound. 
 		 */
-                //SClipFondo.setLooping(true);
-                //SClipFondo.play();
+                SClipFondo = new SoundClip("Developers.wav");
+                SClipFondo.setLooping(true);
+                SClipFondo.play();
 		
+                /*
+		 * Add the sound for the pieces. 
+		 */
+                SClipPieza = new SoundClip("Pieza.wav");
+                
 		/*
 		 * Adds a custom anonymous KeyListener to the frame.
 		 */
@@ -402,6 +409,11 @@ public class Tetris extends JFrame {
 			 * Spawn a new piece to control.
 			 */
 			spawnPiece();
+                        
+			/*
+			 * Plays the sound when it hits anothe piece or the bottom.
+			 */
+                        SClipPieza.play();
 		}		
 	}
 	
