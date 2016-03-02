@@ -103,7 +103,7 @@ public class SidePanel extends JPanel {
 	public SidePanel(Tetris tetTetris) {
 		this.tetTetris = tetTetris;
 		
-		setPreferredSize(new Dimension(200, BoardPanel.iPANEL_HEIGHT));
+		setPreferredSize(new Dimension(200, BoardPanel.PANEL_HEIGHT));
 		setBackground(Color.BLACK);
 	}
 	

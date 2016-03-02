@@ -86,7 +86,7 @@ public class Tetris extends JFrame {
 	 * The next type of tile.
 	 */
 	private TileType tltNextType;
-		
+	
 	/**
 	 * The current column of our tile.
 	 */
