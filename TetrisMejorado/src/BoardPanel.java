@@ -3,6 +3,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 
 import javax.swing.JPanel;
 
@@ -132,8 +135,7 @@ public class BoardPanel extends JPanel {
         iContador = 50;
         bIluminar = false;
         setPreferredSize(new Dimension(iPANEL_WIDTH, iPANEL_HEIGHT));
-        setBackground(Color.BLACK);
-
+        
         sClipSuccess = new SoundClip("success.wav");
     }
 
@@ -312,7 +314,7 @@ public class BoardPanel extends JPanel {
 
         //This helps simplify the positioning of things.
         g.translate(iBORDER_WIDTH, iBORDER_WIDTH);
-
+        
         //Inicializo la variable para cambiar el brillo.
         /*
 		 * Draw the board differently depending on the current game state.
@@ -325,6 +327,7 @@ public class BoardPanel extends JPanel {
                     - g.getFontMetrics().stringWidth(sMsg) / 2,
                     iCENTER_Y);
         } else if (tetTetris.isNewGame() || tetTetris.isGameOver()) {
+           setBackground(Color.black);
             g.setFont(fntLARGE_FONT);
             g.setColor(Color.WHITE);
 
@@ -343,7 +346,9 @@ public class BoardPanel extends JPanel {
             g.drawString(sMsg, iCENTER_X
                     - g.getFontMetrics().stringWidth(sMsg) / 2, 300);
         } else {
-
+                URL urlFondo = this.getClass().getResource("bg.gif");
+            Image imFondo = Toolkit.getDefaultToolkit().getImage(urlFondo);
+            g.drawImage(imFondo, -5, -5, getWidth()+5, getHeight()+5, this);
             /*
 			 * Draw the tiles onto the board.
              */

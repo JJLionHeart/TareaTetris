@@ -12,8 +12,9 @@ import java.awt.Color;
 /**
  * The {@code Tetris} class is responsible for handling much of the game logic and
  * reading user input.
- * @author Brendan Jones
- *
+ * @author José Humberto Guevara
+ * @author Juan José López 
+ * 
  */
 public class Tetris extends JFrame {
 	
@@ -123,6 +124,8 @@ public class Tetris extends JFrame {
         private boolean bIluminar;    //Decido si la pieza se debe iluminar o no
         
         private boolean bPausado;      //Boleano para saber si el juego esta pausado.
+        
+        private boolean bMuteado;       //Boleano para saber si la musica esta muteada.
 		
 	/**
 	 * Creates a new Tetris instance. Sets up the window's properties,
@@ -293,7 +296,21 @@ public class Tetris extends JFrame {
                                         System.out.println(e);
                                     }
                                     break;
-				}
+                                case KeyEvent.VK_M:
+                                    if(bMuteado)
+                                    {
+                                    SClipFondo.stop();
+                                    bMuteado = !bMuteado;
+                                    }
+                                    else
+                                    {
+                                    SClipFondo.setLooping(true);
+                                    SClipFondo.play();
+                                    bMuteado = !bMuteado;
+                                    }
+                                }
+                                
+                                
                                 
                                     
 			}
