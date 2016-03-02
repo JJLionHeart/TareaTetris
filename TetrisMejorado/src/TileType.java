@@ -431,5 +431,9 @@ public enum TileType {
 		}
 		return -1;
 	}
+        //regresa el tipo de tyle actual
+        public int getType(){
+            return iType;
+        }
 	
 }

@@ -431,5 +431,22 @@ public class BoardPanel extends JPanel {
 			g.drawLine(x + i, y, x + i, y + iTILE_SIZE - i - 1);
 		}
 	}
-
+        public int[][] getTablero(){
+            int salida[][] = new int[tiles.length][tiles[0].length];
+            for(int iC = 0;iC < tiles.length;iC++){
+                for(int iJ = 0;iJ<tiles[0].length;iJ++){
+                    salida[iC][iJ] = tiles[iC][iJ].getType();
+                }
+            }
+            return salida;
+        }
+        public void setTablero(int [][] entrada){
+            
+            tiles = new TileType [entrada.length][entrada[0].length];
+            for(int iC = 0;iC<entrada.length;iC++){
+                for(int iJ = 0;iJ<entrada.length;iJ++){
+                    tiles[iC][iJ] = TileType.values()[entrada[iC][iJ]];
+                }
+            }
+        }
 }

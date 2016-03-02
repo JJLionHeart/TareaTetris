@@ -3,8 +3,9 @@
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.Random;
-
+import java.io.RandomAccessFile;
 import javax.swing.JFrame;
 
 /**
@@ -238,8 +239,23 @@ public class Tetris extends JFrame {
 						resetGame();
 					}
 					break;
-				
+                                case KeyEvent.VK_C:
+                                    try{
+                                    Cargar();//cargar el juego
+                                    }catch(Exception e){
+                                        
+                                    }
+                                    break;
+				case KeyEvent.VK_G:
+                                try{
+                                    Guardar();//guardar el juego actual
+                                    }catch(Exception e){
+                                        
+                                    }
+                                    break;
 				}
+                                
+                                    
 			}
 			
 			@Override
@@ -397,7 +413,8 @@ public class Tetris extends JFrame {
 		this.iLevel = 1;
 		this.iScore = 0;
 		this.fGameSpeed = 1.0f;
-		this.tltNextType = TileType.values()[ranRandom.nextInt(iTYPE_COUNT)];
+		this.tltNextType = TileType.values()
+                        [ranRandom.nextInt(iTYPE_COUNT)];
 		this.boolIsNewGame = false;
 		this.boolIsGameOver = false;		
 		bpnBoard.clear();
@@ -419,13 +436,15 @@ public class Tetris extends JFrame {
 		this.iCurrentCol = tltCurrentType.getSpawnColumn();
 		this.iCurrentRow = tltCurrentType.getSpawnRow();
 		this.iCurrentRotation = 0;
-		this.tltNextType = TileType.values()[ranRandom.nextInt(iTYPE_COUNT)];
+		this.tltNextType = TileType.values()
+                        [ranRandom.nextInt(iTYPE_COUNT)];
 		
 		/*
 		 * If the spawn point is invalid, we need to pause the game and flag that we've lost
 		 * because it means that the pieces on the bpnBoard have gotten too high.
 		 */
-		if(!bpnBoard.isValidAndEmpty(tltCurrentType, iCurrentCol, iCurrentRow, iCurrentRotation)) {
+		if(!bpnBoard.isValidAndEmpty(tltCurrentType, iCurrentCol
+                        , iCurrentRow, iCurrentRotation)) {
 			this.boolIsGameOver = true;
 			clkLogicTimer.setPaused(true);
 		}		
@@ -459,8 +478,11 @@ public class Tetris extends JFrame {
 		 */
 		if(iCurrentCol < -iLeft) {
 			iNewColumn -= iCurrentCol - iLeft;
-		} else if(iCurrentCol + tltCurrentType.getDimension() - iRight >= BoardPanel.COL_COUNT) {
-			iNewColumn -= (iCurrentCol + tltCurrentType.getDimension() - iRight) - BoardPanel.COL_COUNT + 1;
+		} else if(iCurrentCol + tltCurrentType.getDimension() 
+                        - iRight >= BoardPanel.COL_COUNT) {
+			iNewColumn -= (iCurrentCol + 
+                                tltCurrentType.getDimension() - iRight) 
+                                - BoardPanel.COL_COUNT + 1;
 		}
 		
 		/*
@@ -563,7 +585,58 @@ public class Tetris extends JFrame {
 	public int getPieceRotation() {
 		return iCurrentRotation;
 	}
-
+        /**
+         * funcion de guardar, toma el estado actual del juego
+         * y lo transfiere a un archivo de acceso aleatorio
+         * @throws IOException 
+         */
+        public void Guardar()throws IOException{
+            RandomAccessFile rafSalida;
+            rafSalida = new RandomAccessFile("guardado.dat","rw");
+            rafSalida.writeInt(this.iLevel);
+            rafSalida.writeInt(this.iScore);
+            rafSalida.writeFloat(this.fGameSpeed);
+            rafSalida.writeInt(this.tltNextType.getType());
+            rafSalida.writeInt(this.tltCurrentType.getType());
+            rafSalida.writeBoolean(this.boolIsNewGame);
+            rafSalida.writeBoolean(this.boolIsGameOver);
+            int matDatos[][] = bpnBoard.getTablero();
+            rafSalida.writeInt(matDatos.length);
+            rafSalida.writeInt(matDatos[0].length);
+            for(int iC=0;iC < matDatos.length;iC++){
+                for(int iJ = 0;iJ<matDatos[0].length;iJ++){
+                    rafSalida.writeInt(matDatos[iC][iJ]);
+                }
+            }
+        }
+        /**
+         * Funcion de Cargar el juego, toma el estado guardado en el archivo
+         * de acceso aleatorio y lo sustituye en el juego actual
+         * @throws IOException 
+         */
+        public void Cargar()throws IOException{
+            RandomAccessFile rafEntrada;
+            rafEntrada = new RandomAccessFile("guardado.dat","rw");
+            this.iLevel = rafEntrada.readInt();
+            this.iScore = rafEntrada.readInt();
+            this.fGameSpeed = rafEntrada.readFloat();
+            this.tltNextType = TileType.values()[rafEntrada.readInt()];
+            this.tltCurrentType = TileType.values()[rafEntrada.readInt()];
+            this.boolIsNewGame = rafEntrada.readBoolean();
+            this.boolIsGameOver = rafEntrada.readBoolean();
+            clkLogicTimer.reset();
+	    clkLogicTimer.setCyclesPerSecond(fGameSpeed);
+            int iRows = rafEntrada.readInt();
+            int iCols = rafEntrada.readInt();
+            int matTablero[][] = new int[iRows][iCols];
+            for(int iC = 0;iC<iRows;iC++){
+                for(int iJ = 0;iJ<iCols;iJ++){
+                    matTablero[iC][iJ] = rafEntrada.readInt();
+                }
+            }
+            bpnBoard.clear();
+            bpnBoard.setTablero(matTablero);
+        }
 	/**
 	 * Entry-point of the game. Responsible for creating and starting a new
 	 * game instance.
@@ -573,5 +646,6 @@ public class Tetris extends JFrame {
 		Tetris tetTetris = new Tetris();
 		tetTetris.startGame();
 	}
+        
 
 }
