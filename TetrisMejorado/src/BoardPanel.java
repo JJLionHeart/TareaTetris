@@ -113,6 +113,11 @@ public class BoardPanel extends JPanel {
         */
         private boolean bIluminar;
         private int iContador;
+        
+        /**
+         *  Sonidopara cuando se complete exitosamente la linea
+         */
+        private SoundClip sClipSuccess;
 		
 	/**
 	 * Crates a new GameBoard instance.
@@ -125,6 +130,8 @@ public class BoardPanel extends JPanel {
                 bIluminar = false;
 		setPreferredSize(new Dimension(iPANEL_WIDTH, iPANEL_HEIGHT));
 		setBackground(Color.BLACK);
+                
+                sClipSuccess = new SoundClip("success.wav");
 	}
 	
 	/**
@@ -225,6 +232,7 @@ public class BoardPanel extends JPanel {
 		for(int iRow = 0; iRow < iROW_COUNT; iRow++) {
 			if(checkLine(iRow)) {
 				iCompletedLines++;
+                                sClipSuccess.play();
 			}
 		}
 		return iCompletedLines;
