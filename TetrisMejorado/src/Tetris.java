@@ -243,14 +243,14 @@ public class Tetris extends JFrame {
                                     try{
                                     Cargar();//cargar el juego
                                     }catch(Exception e){
-                                        
+                                        System.out.println(e);
                                     }
                                     break;
 				case KeyEvent.VK_G:
                                 try{
                                     Guardar();//guardar el juego actual
                                     }catch(Exception e){
-                                        
+                                        System.out.println(e);
                                     }
                                     break;
 				}
@@ -601,6 +601,7 @@ public class Tetris extends JFrame {
             rafSalida.writeBoolean(this.boolIsNewGame);
             rafSalida.writeBoolean(this.boolIsGameOver);
             int matDatos[][] = bpnBoard.getTablero();
+            
             rafSalida.writeInt(matDatos.length);
             rafSalida.writeInt(matDatos[0].length);
             for(int iC=0;iC < matDatos.length;iC++){
@@ -624,6 +625,7 @@ public class Tetris extends JFrame {
             this.tltCurrentType = TileType.values()[rafEntrada.readInt()];
             this.boolIsNewGame = rafEntrada.readBoolean();
             this.boolIsGameOver = rafEntrada.readBoolean();
+            
             clkLogicTimer.reset();
 	    clkLogicTimer.setCyclesPerSecond(fGameSpeed);
             int iRows = rafEntrada.readInt();

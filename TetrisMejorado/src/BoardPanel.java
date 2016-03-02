@@ -435,7 +435,11 @@ public class BoardPanel extends JPanel {
             int salida[][] = new int[tiles.length][tiles[0].length];
             for(int iC = 0;iC < tiles.length;iC++){
                 for(int iJ = 0;iJ<tiles[0].length;iJ++){
+                    if(tiles[iC][iJ] != null){
                     salida[iC][iJ] = tiles[iC][iJ].getType();
+                    }else{
+                        salida[iC][iJ] = -1;
+                    }
                 }
             }
             return salida;
@@ -443,9 +447,15 @@ public class BoardPanel extends JPanel {
         public void setTablero(int [][] entrada){
             
             tiles = new TileType [entrada.length][entrada[0].length];
+            
             for(int iC = 0;iC<entrada.length;iC++){
-                for(int iJ = 0;iJ<entrada.length;iJ++){
+                for(int iJ = 0;iJ<entrada[0].length;iJ++){
+                    if(entrada[iC][iJ] != -1){
                     tiles[iC][iJ] = TileType.values()[entrada[iC][iJ]];
+                    }else
+                    {
+                        tiles[iC][iJ] = null;
+                    }
                 }
             }
         }
