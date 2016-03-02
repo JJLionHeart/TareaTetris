@@ -121,6 +121,8 @@ public class Tetris extends JFrame {
         private Color colColorReal;   //Guardo el color real de la pieza;
         
         private boolean bIluminar;    //Decido si la pieza se debe iluminar o no
+        
+        private boolean bPausado;      //Boleano para saber si el juego esta pausado.
 		
 	/**
 	 * Creates a new Tetris instance. Sets up the window's properties,
@@ -135,6 +137,10 @@ public class Tetris extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		
+                //inicializo la variable de pausado
+                bPausado = false;
+                
+                
 		/*
 		 * Initialize the BoardPanel and SidePanel instances.
 		 */
@@ -251,6 +257,16 @@ public class Tetris extends JFrame {
 					if(!boolIsGameOver && !boolIsNewGame) {
 						boolIsPaused = !boolIsPaused;
 						clkLogicTimer.setPaused(boolIsPaused);
+                                                if(bPausado)
+                                                {
+                                                    SClipFondo.unpause();
+                                                    bPausado = !bPausado;
+                                                }
+                                                else
+                                                {
+                                                    SClipFondo.pause();
+                                                    bPausado = !bPausado;
+                                                }
 					}
 					break;
 				
@@ -376,19 +392,7 @@ public class Tetris extends JFrame {
 		if(bpnBoard.isValidAndEmpty(tltCurrentType, iCurrentCol, iCurrentRow + 1, iCurrentRotation)) {
 			//Increment the current row if it's safe to do so.
 			iCurrentRow++;
-                        /*
-                        //decido si se debe iluminar.
-                        if(bIluminar)
-                        {
-                            tltCurrentType.Iluminar(colColorReal);
-                            bIluminar = false;
-                        }
-                        else
-                        {
-                            tltCurrentType.setColor(colColorReal);
-                            bIluminar = true;
-                        }
-                        */
+
 		} else {
 			/*
 			 * We've either reached the bottom of the board, or landed on another piece, so
@@ -684,6 +688,7 @@ public class Tetris extends JFrame {
             bpnBoard.clear();
             bpnBoard.setTablero(matTablero);
         }
+        
 	/**
 	 * Entry-point of the game. Responsible for creating and starting a new
 	 * game instance.

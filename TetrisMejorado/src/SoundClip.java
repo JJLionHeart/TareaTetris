@@ -18,6 +18,7 @@ public class SoundClip {
         private boolean looping = false;
         private int repeat = 0;
         private String filename = "";
+        private long lPause = 0;
 
   public SoundClip() { 
         try {  
@@ -120,8 +121,28 @@ public class SoundClip {
             clip.loop(repeat);
     }
     
-        public void stop() { 
-                                                       
-                clip.stop();
-        }
+    public void stop() { 
+
+            clip.stop();
+    }
+    
+    public void pause() {
+        //obtengo la posicion actual del sound clip.
+        lPause = clip.getMicrosecondPosition();
+        
+        //detengo el sound clip.
+        clip.stop();
+    }
+    
+    public void unpause()
+    {
+        //Pongo el audio en la posicion que se pauso.
+        clip.setMicrosecondPosition(lPause);
+
+        //Comienzo el audio.
+        if (looping) 
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        else 
+            clip.loop(repeat);
+    }
 }
