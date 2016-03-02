@@ -113,6 +113,8 @@ public class Tetris extends JFrame {
 	 * The speed of the game.
 	 */
 	private float fGameSpeed;
+        
+        //private SoundClip SClipFondo;  // Objeto SoundClip de fondo
 		
 	/**
 	 * Creates a new Tetris instance. Sets up the window's properties,
@@ -138,6 +140,12 @@ public class Tetris extends JFrame {
 		 */
 		add(bpnBoard, BorderLayout.CENTER);
 		add(spnSide, BorderLayout.EAST);
+                
+                /*
+		 * Add the background sound. 
+		 */
+                //SClipFondo.setLooping(true);
+                //SClipFondo.play();
 		
 		/*
 		 * Adds a custom anonymous KeyListener to the frame.
