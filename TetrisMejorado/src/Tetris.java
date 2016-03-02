@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.io.RandomAccessFile;
 import javax.swing.JFrame;
+import java.awt.Color;
 
 /**
  * The {@code Tetris} class is responsible for handling much of the game logic and
@@ -116,6 +117,10 @@ public class Tetris extends JFrame {
         
         private SoundClip SClipFondo;  // Objeto SoundClip de fondo
         private SoundClip SClipPieza;  // Objeto SoundClip de las piezas
+        
+        private Color colColorReal;   //Guardo el color real de la pieza;
+        
+        private boolean bIluminar;    //Decido si la pieza se debe iluminar o no
 		
 	/**
 	 * Creates a new Tetris instance. Sets up the window's properties,
@@ -154,6 +159,10 @@ public class Tetris extends JFrame {
 		 */
                 SClipPieza = new SoundClip("Pieza.wav");
                 
+                /*
+                 * Inicializo el booleano que determina el brillo
+                */
+                bIluminar = false;
 		/*
 		 * Adds a custom anonymous KeyListener to the frame.
 		 */
@@ -367,6 +376,18 @@ public class Tetris extends JFrame {
 		if(bpnBoard.isValidAndEmpty(tltCurrentType, iCurrentCol, iCurrentRow + 1, iCurrentRotation)) {
 			//Increment the current row if it's safe to do so.
 			iCurrentRow++;
+                        
+                        //decido si se debe iluminar.
+                        if(bIluminar)
+                        {
+                            tltCurrentType.Iluminar(colColorReal);
+                            bIluminar = false;
+                        }
+                        else
+                        {
+                            tltCurrentType.setColor(colColorReal);
+                            bIluminar = true;
+                        }
 		} else {
 			/*
 			 * We've either reached the bottom of the board, or landed on another piece, so
@@ -383,6 +404,11 @@ public class Tetris extends JFrame {
 			if(iCleared > 0) {
 				iScore += 50 << iCleared;
 			}
+                        
+                        /*
+                         * Pongo el Color de la pieza en su color original
+                        */
+                        tltCurrentType.setColor(colColorReal);
 			
 			/*
 			 * Increase the speed slightly for the next piece and update the game's timer
@@ -458,6 +484,9 @@ public class Tetris extends JFrame {
 		this.iCurrentRotation = 0;
 		this.tltNextType = TileType.values()
                         [ranRandom.nextInt(iTYPE_COUNT)];
+                
+                //guardo el color real de la pieza.
+                colColorReal = tltCurrentType.getBaseColor();
 		
 		/*
 		 * If the spawn point is invalid, we need to pause the game and flag that we've lost

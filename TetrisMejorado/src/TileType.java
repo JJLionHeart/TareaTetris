@@ -436,4 +436,19 @@ public enum TileType {
             return iType;
         }
 	
+        //cambia el brillo de la pieza
+        public void Iluminar(Color color)
+        {
+                colBaseColor = color.brighter();
+		colLightColor = color.brighter().brighter();
+		colDarkColor = color.darker().brighter();
+        }
+        
+        //regreso al color original.
+        public void setColor(Color color)
+        {
+                colBaseColor = color;
+		colLightColor = color.brighter();
+		colDarkColor = color.darker();
+        }
 }
