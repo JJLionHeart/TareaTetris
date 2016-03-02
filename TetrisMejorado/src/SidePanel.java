@@ -137,7 +137,7 @@ public class SidePanel extends JPanel {
 		 */
 		graGraphics.setFont(fonLARGE_FONT);
 		graGraphics.drawString("Controls", iSMALL_INSET
-                        , iOffset = iCONTROLS_INSET);
+                        , iOffset = iCONTROLS_INSET-30);
 		graGraphics.setFont(fonSMALL_FONT);
 		graGraphics.drawString("A - Move Left", iLARGE_INSET
                         , iOffset += iTEXT_STRIDE);
@@ -151,7 +151,10 @@ public class SidePanel extends JPanel {
                         , iOffset += iTEXT_STRIDE);
 		graGraphics.drawString("P - Pause Game", iLARGE_INSET
                         , iOffset += iTEXT_STRIDE);
-		
+		graGraphics.drawString("G - Save Game", iLARGE_INSET
+                        , iOffset += iTEXT_STRIDE);
+                graGraphics.drawString("C - Load Game", iLARGE_INSET
+                        , iOffset += iTEXT_STRIDE);
 		/*
 		 * Draw the next piece preview box.
 		 */
