@@ -62,12 +62,12 @@ public class SidePanel extends JPanel {
 	/**
 	 * The y coordinate of the stats category.
 	 */
-	private static final int iSTATS_INSET = 175;
+	private static final int iSTATS_INSET = 150;
 	
 	/**
 	 * The y coordinate of the controls category.
 	 */
-	private static final int iCONTROLS_INSET = 300;
+	private static final int iCONTROLS_INSET = 275;
 	
 	/**
 	 * The number of pixels to offset between each string.
@@ -154,6 +154,8 @@ public class SidePanel extends JPanel {
 		graGraphics.drawString("G - Save Game", iLARGE_INSET
                         , iOffset += iTEXT_STRIDE);
                 graGraphics.drawString("C - Load Game", iLARGE_INSET
+                        , iOffset += iTEXT_STRIDE);
+                graGraphics.drawString("M - Mute Sound", iLARGE_INSET
                         , iOffset += iTEXT_STRIDE);
 		/*
 		 * Draw the next piece preview box.
